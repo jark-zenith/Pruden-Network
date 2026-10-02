@@ -1,75 +1,53 @@
-# React + TypeScript + Vite
+# PRUDEN Network
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+PRUDEN Network is the software-network foundation for the PRUDEN technology ecosystem.
 
-Currently, two official plugins are available:
+## v0.1 — Network Core
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+The first operational layer includes:
 
-## React Compiler
+- node enrollment and unique PRUDEN node identity
+- token-authenticated API access
+- live node presence
+- server-sent event (SSE) signaling
+- network broadcast messaging
+- targeted node messaging
+- network health endpoint
+- cinematic PRUDEN console
+- PRUDEN P-mark branding
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Run locally
 
-## Expanding the ESLint configuration
+\`\`\`
+npm install
+npm run build
+npm start
+\`\`\`
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Then open \`http://localhost:8787\`.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+For frontend development, run \`npm run dev\` and keep the core server running on port 8787. Set \`VITE_API_URL\` when the core is hosted elsewhere.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Architecture
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+\`\`\`
+PRUDEN NODE
+    │ HTTPS
+    ▼
+PRUDEN NETWORK CORE
+ ┌──┼──────────────┐
+ │  │              │
+API NODE REGISTRY SIGNAL BUS
+ │  │              │
+ └──┴──────────────┘
+        │
+ Future: persistent identity, PostgreSQL, Redis,
+ WebSocket transport, native device agents,
+ encrypted device tunnels and hardware gateways.
+\`\`\`
 
-```
+## v0.1 limitation
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+The node registry is currently in-memory. Restarting the core clears enrolled nodes and tokens. This is intentional for the first network proof and is not yet production-grade identity storage.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
+v0.1 operates over the existing Internet. It is not an ISP and does not provide independent Internet access.
